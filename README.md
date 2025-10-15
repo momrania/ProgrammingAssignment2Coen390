@@ -3,19 +3,33 @@
 Requirements
 General
 •	Two Activities: mainActivity and profileActivity.
+
 •	profileActivity is a child Activity to mainActivity (up navigation is provided).
+
 •	A DialogFragment to add profiles to the database
+
 •	Opened from the mainActivity using the Floating Action Button
+
 MainActivity
+
 •	mainActivity has a textview at the top which displays:
+
 •	the total number of profiles stored in the database.
+
 •	how the database entries are displayed in the listview (by ID (increasing order) or by Name (alphabetical by Surname)) 
+
 •	mainActivity has a Floating button that opens an “Insert Profile” DialogFragment.
+
 •	mainActivity has a ListView that displays all the profiles stored in the database. 
+
 •	Each line corresponds to one profile
+
 •	Each line shows either the profile name or the profile ID
+
 •	Each line starts with the line number of the entry in the listview
+
 •	Every item in the list is clickable. When an item is clicked, go to profileActivity.
+
 •	The mainActivity will have a toolbar with an action to toggle between two modes:
 •	Profile name Display mode: 
 	Default display mode
