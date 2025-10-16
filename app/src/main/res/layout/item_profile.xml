@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
+
+    <!-- This TextView is for the position number (e.g., "1.", "2.") -->
+    <TextView
+        android:id="@+id/tvProfileId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:minWidth="30dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="1." />
+
+    <!-- This TextView is for the main content (Name or Student ID) -->
+    <TextView
+        android:id="@+id/tvProfileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/tvProfileId"
+        android:layout_centerVertical="true"
+        android:textSize="18sp"
+        tools:text="Smith, John" />
+
+</RelativeLayout>
