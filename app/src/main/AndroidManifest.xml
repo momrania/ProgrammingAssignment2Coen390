@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProgAss2">
         <activity
+            android:name=".controller.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".controller.MainActivity"
             android:exported="true">
             <intent-filter>

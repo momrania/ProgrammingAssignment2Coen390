@@ -164,11 +164,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteProfile(int profileId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_PROFILE, KEY_PROFILE_ID + " = ?", new String[]{String.valueOf(profileId)});
-        db.close();
+        try {
+            db.delete(TABLE_PROFILE, KEY_PROFILE_ID + " = ?", new String[]{String.valueOf(profileId)});
 
-        // Log deletion in access table
-        addAccess(new Access(profileId, "deleted"));
+            addAccess(new Access(profileId, "deleted"));
+        } finally {
+            db.close();
+        }
     }
 
     public int getProfileCount() {
@@ -182,4 +184,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return count;
     }
+
+    public boolean profileExists(int profileId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + KEY_PROFILE_ID + " FROM " + TABLE_PROFILE + " WHERE " + KEY_PROFILE_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(profileId)});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+    public Profile getProfileById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_PROFILE,
+                    new String[]{KEY_PROFILE_ID, KEY_SURNAME, KEY_NAME, KEY_GPA, KEY_CREATION_DATE},
+                    KEY_PROFILE_ID + "=?",
+                    new String[]{String.valueOf(id)}, null, null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                Profile profile = new Profile(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(KEY_PROFILE_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(KEY_SURNAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME)),
+                        cursor.getFloat(cursor.getColumnIndexOrThrow(KEY_GPA))
+                );
+                profile.setCreationDate(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CREATION_DATE)));
+                return profile;
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+        return null;
+    }
+
+
 }

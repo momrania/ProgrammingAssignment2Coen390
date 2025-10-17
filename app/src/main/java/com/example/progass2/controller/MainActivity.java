@@ -1,6 +1,7 @@
 package com.example.progass2.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,13 +37,19 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Di
     private TextView listOrder;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadProfiles();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Profiles");
+        getSupportActionBar().setTitle("MainActivity");
         floatingButton = findViewById(R.id.floatingButton);
         floatingButton.setOnClickListener(v -> {
             DialogFragment dialogFragment = new DialogFragment();
@@ -125,11 +132,13 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Di
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     Profile clickedProfile = profileList.get(position);
-                    Toast.makeText(context, "Clicked on " + clickedProfile.getStudentId(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra("PROFILE_ID", clickedProfile.getStudentId());
+                    startActivity(intent);
+                }
             }
-        }
 
-    }
+        }
         public ProfileAdapter(Context context, List<Profile> profileList) {
             this.context = context;
             this.profileList = profileList;
@@ -147,11 +156,12 @@ public class MainActivity extends AppCompatActivity implements DialogFragment.Di
         public void onBindViewHolder(@NonNull ProfileViewHolder holder, int position) {
             Profile profile = profileList.get(position);
             String positionText = (position + 1) + ".";
+            holder.tvId.setText(positionText);
             if (isSortedByName) {
                 String fullName = profile.getSurname() + ", " + profile.getName();
                 holder.tvName.setText(fullName);
             }else {
-                holder.tvId.setText("ID: " + profile.getStudentId());
+                holder.tvName.setText("ID: " + profile.getStudentId());
             }
         }
 

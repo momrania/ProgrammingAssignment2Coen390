@@ -91,6 +91,12 @@ public class DialogFragment extends androidx.fragment.app.DialogFragment {
                 return;
             }
 
+            if (dbHelper.profileExists(profileId)) {
+                Toast.makeText(getContext(), "Profile ID already exists in the database.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
             Profile profile = new Profile(profileId, surname, name, gpa);
 
             dbHelper.addProfile(profile);
